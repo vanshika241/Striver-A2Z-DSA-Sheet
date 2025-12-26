@@ -305,3 +305,84 @@ public boolean search(int[] nums, int target) {
         }
         return ans;
     }
+
+//Find out how many times the array has been rotated
+ public int findMinIdx(int[] nums) {
+        int n = nums.length;
+        int start = 0;
+        int ans = Integer.MAX_VALUE;
+        int end = n-1;
+        if(nums[0]<=nums[end]){
+            return 0;
+        }
+        while(start <= end){
+            int mid = start + (end - start)/2;
+            if(nums[start]<=nums[mid]){
+                ans = start;
+                start = mid+1;
+            }
+            else{
+                 ans = mid;
+                end = mid-1;
+            }
+        }
+        return ans;
+    }
+
+//Single element in a Sorted Array
+public int singleNonDuplicate(int[] nums) {
+        int n = nums.length;
+        if(n == 1)return nums[0];
+        int start = 1;
+        int end = n-2;
+        if(nums[0] != nums[1])return nums[0];
+        if(nums[n-1] != nums[n-2])return nums[n-1];
+        while(start<=end){
+            int mid = start + (end - start)/2;
+            if(nums[mid] != nums[mid-1] && nums[mid] != nums[mid+1]){
+                return nums[mid];
+            }
+            if(mid % 2 != 0){
+                if(nums[mid] == nums[mid-1]){ // left part move to right part
+                   start = mid+1;
+                }
+                else{
+                    end = mid-1;
+                }
+            }
+            else{
+                if(nums[mid] == nums[mid-1]){ // right part move to left part
+                   end = mid-1;
+                }
+                else{
+                    start = mid+1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+//Find peak element
+ public int findPeakElement(int[] nums) {
+        int n = nums.length;
+        if(n == 1)return 0;
+        if(nums[0]>nums[1])return 0;
+        if(nums[n-1]>nums[n-2])return n-1;
+        int start = 1;
+        int end = n-2;
+        while(start <= end ){
+            int mid = start + (end - start)/2;
+            if(nums[mid]>nums[mid-1] && nums[mid]>nums[mid+1]){
+                return mid;
+            }
+            if(nums[mid-1]<nums[mid]){
+                //sorted part
+                start = mid+1;
+            }
+            else{
+                end = mid-1;
+            }
+        }
+        return -1;
+    }
